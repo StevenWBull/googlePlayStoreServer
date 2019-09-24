@@ -8,7 +8,8 @@ const app = express();
 app.use(morgan('common'));
 
 app.get('/apps', (req, res) => {
-  const { search, sort } = req.query;
+  const search = req.query.search;
+  const sort = req.query.sort;
 
   const sortParams = ['rating', 'app'];
   const searchParams = ['action', 'puzzle', 'strategy', 'casual', 'arcade', 'card'];
@@ -28,12 +29,9 @@ app.get('/apps', (req, res) => {
   }
 
   if (sort) {
-    results = results.sort(( a, b ) => {
-      return a[sort] > b[sort] ? 1 : a[sort] < b[sort] ? -1 : 0;
-    })
+    const newSort = sort.charAt(0).toUpperCase() + sort.slice(1).toLowerCase();
+    results = results.sort(( a, b ) => a[newSort] < b[newSort] ? 1 : a[newSort] > b[newSort] ? -1 : 0);
   }
-
-  console.log(results)
 
   res.json(results);
 })
