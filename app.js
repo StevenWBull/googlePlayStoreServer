@@ -8,5 +8,9 @@ const app = express();
 app.use(morgan('common'));
 
 app.get('/apps', (req, res) => {
-  res.json('I\'m running');
+
+  
+  res.json(googleApps);
 })
+
+app.listen(8000, () => console.log('Server started on port 8000'));
