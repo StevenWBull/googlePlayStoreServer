@@ -21,7 +21,16 @@ app.get('/apps', (req, res) => {
     return res.status(400).json('Error: please search by a valid genre. Such as: action, puzzle, strategy, casual, arcade, or card');
   }
 
-  res.json(googleApps);
+  let results = googleApps.filter( app => app.Genres.toLowerCase().includes(search.toLowerCase()) );
+
+  if(sort) {
+    results.sort(( a, b ) => {
+      return a[sort] > b[sort] ? 1 : a[sort] < b[sort] ? -1 : 0;
+    })
+  }
+
+
+  res.json(results);
 })
 
 app.listen(8000, () => console.log('Server started on port 8000'));
