@@ -21,16 +21,14 @@ app.get('/apps', (req, res) => {
     return res.status(400).json('Error: please search by a valid genre. Such as: action, puzzle, strategy, casual, arcade, or card');
   }
 
-  let results;
+  let results = googleApps;
 
   if (search) {
     results = googleApps.filter( apps => apps.Genres.toLowerCase().includes(search.toLowerCase()) );
-  } else {
-    results = googleApps;
   }
 
   if (sort) {
-    results.sort(( a, b ) => {
+    results = results.sort(( a, b ) => {
       return a[sort] > b[sort] ? 1 : a[sort] < b[sort] ? -1 : 0;
     })
   }
