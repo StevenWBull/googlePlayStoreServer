@@ -34,6 +34,6 @@ app.get('/apps', (req, res) => {
   }
 
   res.json(results);
-})
+});
 
 module.exports = app;
