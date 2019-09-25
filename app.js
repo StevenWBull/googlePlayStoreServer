@@ -15,11 +15,11 @@ app.get('/apps', (req, res) => {
   const searchParams = ['action', 'puzzle', 'strategy', 'casual', 'arcade', 'card'];
 
   if (sort && !sortParams.includes(sort)) {
-    return res.status(400).json({ 'Error: sort must be by rating or app' });
+    return res.status(400).json({ 'Error': 'sort must be by rating or app' });
   }
 
   if (search && !searchParams.includes(search.toLowerCase())) {
-    return res.status(400).json({ 'Error: please search by a valid genre. Such as: action, puzzle, strategy, casual, arcade, or card' });
+    return res.status(400).json({ 'Error': 'please search by a valid genre. Such as: action, puzzle, strategy, casual, arcade, or card' });
   }
 
   let results = googleApps;
