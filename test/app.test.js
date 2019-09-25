@@ -20,31 +20,18 @@ describe('Get /apps endpoint', () => {
   });
 
   it('should return the proper search', () => {
-    const cardSearch = [{
-      'App': 'Solitaire',
-      'Category': 'GAME',
-      'Rating': 4.7,
-      'Reviews': '254258',
-      'Size': '23M',
-      'Installs': '10,000,000+',
-      'Type': 'Free',
-      'Price': '0',
-      'Content Rating': 'Everyone',
-      'Genres': 'Card',
-      'Last Updated': 'August 1, 2018',
-      'Current Ver': '2.137.0',
-      'Android Ver': '4.1 and up'
-    }];
 
-    return request(app).get('/apps').query({ search: 'card' }).expect(200)
+    const searchQuery = 'card';
+
+    return request(app).get('/apps').query({ search: searchQuery }).expect(200)
       .then( res => {
         expect(res.body).to.be.an('array');
-        expect(res.body).to.be.eql( cardSearch );
+        expect(res.body[0]['Genres'].toLowerCase()).to.be.eql( searchQuery );
       });
   });
 
-  it('should sort properly', () => {
-    return require(app).get('/apps').query({ sort: 'rating' }).expect(200)
+  it('should sort data properly', () => {
+    return request(app).get('/apps').query({ sort: 'rating' }).expect(200)
       .then( res => {
         expect(res.body).to.be.an('array');
 
@@ -52,10 +39,11 @@ describe('Get /apps endpoint', () => {
         let i = 0;
 
         while( i < res.body.length - 1 ) {
+          
           const appsAtIndex = res.body[i];
           const appsAtNextIndex = res.body[i + 1];
 
-          if( appsAtIndex.Rating < appsAtNextIndex.Rating) {
+          if( appsAtIndex['Rating'] < appsAtNextIndex['Rating']) {
             sorted = false;
             break;
           }
@@ -64,7 +52,6 @@ describe('Get /apps endpoint', () => {
         expect(sorted).to.be.true;
       });
   });
-
 });
 
 
